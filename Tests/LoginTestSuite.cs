@@ -20,12 +20,11 @@ namespace Tests
         [Fact]
         public void AddUserNameAndPasswordRegistrationTest()
         {
-
             //ASSERT
 
-            Assert.Equal("Default_User", _manager.userName);
+            Assert.Equal("Default_User", _manager.UserName);
 
-            Assert.Equal("Default_Password", _manager.userPassword);
+            Assert.Equal("Default_Password", _manager.UserPassword);
 
 
         }
@@ -84,11 +83,11 @@ namespace Tests
         public void UserNameCharactersTest()
         {
             //Act
-            bool newUserAcceptedCaracters = _manager.AddNewUser("Calle_Larsson1", "123_pwd");
+            bool newUserAcceptedCaracters = _manager.AddNewUser("Calle_Larsson1", "Default_Pwd_UT");
 
-            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "123_pwd");
+            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "Default_Pwd_UT");
 
-            bool newUserMax16Char = _manager.AddNewUser("12345678910111213", "123_pwd");
+            bool newUserMax16Char = _manager.AddNewUser("12345678910111213", "Default_Pwd_UT");
 
 
             //Assert
@@ -103,14 +102,14 @@ namespace Tests
         public void UserPasswordCharactersTest()
         {
             //Act
-            bool newUserPasswordAcceptedCaracters = _manager.AddNewUser("Default_User", "$D3f4ult_P4ssw¤rd?");
+            bool newUserPasswordAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "D_3)lt-!(#*3s?");
 
-            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User", "Däfult_Pässwörd");
+            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "Däfult_Pässwörd");
 
-            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User", "12345678910111213");
+            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT", "12345678910111213");
 
             //Assert
-            Assert.True(newUserPasswordAcceptedCaracters);
+            Assert.True(newUserPasswordAcceptedCharacters);
 
             Assert.False(newUserPasswordNotAcceptedCharacters);
 
