@@ -57,5 +57,27 @@ namespace Tests
             //ASSERT
             Assert.False(wrongUserCantLogin);
         }
+
+        [Fact]
+        public void RegisterSameUserTwiceTest()
+        {
+
+            //Act
+            bool registerSameUserAndPasswordTwice = _manager.AddNewUser("Default_User", "Default_Password");
+
+            bool registerSameUserDifferentPassword = _manager.AddNewUser("Default_User", "Wrong_Password");
+
+            bool registerSameDifferentUserSamePassword = _manager.AddNewUser("Wrong_User", "Default_Password");
+
+
+            //Assert
+            Assert.False(registerSameUserAndPasswordTwice);
+
+            Assert.False(registerSameUserDifferentPassword);
+
+            Assert.True(registerSameDifferentUserSamePassword);
+
+
+        }
     }
 }

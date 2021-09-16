@@ -9,12 +9,12 @@ namespace Core
         public string userName;
         public string userPassword;
 
-        public void AddNewUser(string givenUserName, string givenUserPassword)
+        public bool AddNewUser(string givenUserName, string givenUserPassword)
         {
             userName = givenUserName;
             userPassword = givenUserPassword;
 
-
+            return true;
         }
 
         public bool LogInUser(string givenUserName, string givenUserPassword)
