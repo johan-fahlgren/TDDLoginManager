@@ -15,6 +15,8 @@ namespace Core
 
         public bool AddNewUser(string givenUserName, string givenUserPassword)
         {
+            
+            //givenUserName
             if (givenUserName == userName)
             {
                 return false;
@@ -29,6 +31,10 @@ namespace Core
                 return false;
             }
 
+
+            //givenUserPassword
+
+
             userName = givenUserName;
             userPassword = givenUserPassword;
 
@@ -40,5 +46,7 @@ namespace Core
             bool loginSuccess = givenUserName == userName && givenUserPassword == userPassword;
             return loginSuccess;
         }
+
+
     }
 }

@@ -98,5 +98,23 @@ namespace Tests
 
             Assert.False(newUserMax16Char);
         }
+
+        [Fact]
+        public void UserPasswordCharactersTest()
+        {
+            //Act
+            bool newUserPasswordAcceptedCaracters = _manager.AddNewUser("Default_User", "$D3f4ult_P4ssw¤rd?");
+
+            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User", "Däfult_Pässwörd");
+
+            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User", "12345678910111213");
+
+            //Assert
+            Assert.True(newUserPasswordAcceptedCaracters);
+
+            Assert.False(newUserPasswordNotAcceptedCharacters);
+
+            Assert.False(newUserPasswordMax16Char);
+        }
     }
 }
