@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Core
 {
     public class LoginManager
     {
+        // TODO Skapa List för user och password
+        // TODO Lägga in i egen klass?
+        
         //FIELD
         public string userName;
         public string userPassword;
@@ -15,7 +19,16 @@ namespace Core
             {
                 return false;
             }
-            
+            if (givenUserName.Length > 16) //Username max length
+            {
+                return false;
+            }
+
+            if (!(Regex.IsMatch(givenUserName, "^[a-zA-Z0-9_-]*$"))) //Kontrollerar a-z,A-Z,0-9 och "-_"
+            {
+                return false;
+            }
+
             userName = givenUserName;
             userPassword = givenUserPassword;
 
