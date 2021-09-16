@@ -19,9 +19,10 @@ namespace Core
             
         }
 
-        public static bool LogInUser(string v1, string v2)
+        public bool LogInUser(string givenUserName, string givenUserPassword)
         {
-            throw new NotImplementedException();
+            bool loginSuccess = givenUserName == userName && givenUserPassword == userPassword;
+            return loginSuccess;
         }
     }
 }

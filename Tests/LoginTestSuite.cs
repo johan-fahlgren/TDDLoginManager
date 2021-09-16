@@ -26,31 +26,39 @@ namespace Tests
 
         }
 
+
         [Fact]
-        void CanUserLoginTest()
+        public void CanUserLoginTest()
         {
             //ARRANGE
             LoginManager loginManager = new LoginManager();
 
+            loginManager.AddNewUser("Default_User", "Default_Password");
+            
             //ACT
-            bool canUserLogin = LoginManager.LogInUser("Default_User", "Default_Password");
+
+            bool canUserLogin = loginManager.LogInUser("Default_User", "Default_Password");
 
             
             //ASSERT
             Assert.True(canUserLogin);
         }
 
+
         [Fact]
-        void WrongUserCantLoginTest()
+        public void WrongUserCantLoginTest()
         {
             //ARRANGE
             LoginManager loginManager = new LoginManager();
 
+            loginManager.AddNewUser("Default_User", "Default_Password");
+
             //ACT
-            bool wrongUserCantLogin = LoginManager.LogInUser("Wrong_User", "Wrong_Password");
+          
+            bool wrongUserCantLogin = loginManager.LogInUser("Wrong_User", "Wrong_Password");
 
             //ASSERT
-            Assert.True(wrongUserCantLogin);
+            Assert.False(wrongUserCantLogin);
         }
     }
 }
