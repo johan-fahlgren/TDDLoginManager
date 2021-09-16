@@ -11,9 +11,12 @@ namespace Core
         public string userName;
         public string userPassword;
 
-        public void AddNewUser(string s1, string s2)
+        public void AddNewUser(string givenUserName, string givenUserPassword)
         {
-            throw new NotImplementedException();
+            userName = givenUserName;
+            userPassword = givenUserPassword;
+           
+            
         }
     }
 }
