@@ -6,22 +6,26 @@ namespace Tests
 {
     public class LoginTestSuite
     {
-        
+
+        //FIELD
+        private LoginManager _manager;
+
+        //CONSTRUCTOR
+        public LoginTestSuite()
+        {
+            _manager = new LoginManager();
+            _manager.AddNewUser("Default_User", "Default_Password");
+        }
+
         [Fact]
         public void AddUserNameAndPasswordRegistrationTest()
         {
-            //ARRANGE
-            LoginManager loginManager = new LoginManager();
-
-
-            //ACT
-            loginManager.AddNewUser("Default_User", "Default_Password");
-           
 
             //ASSERT
-            Assert.Equal("Default_User", loginManager.userName);
 
-            Assert.Equal("Default_Password", loginManager.userPassword);
+            Assert.Equal("Default_User", _manager.userName);
+
+            Assert.Equal("Default_Password", _manager.userPassword);
 
 
         }
@@ -30,16 +34,12 @@ namespace Tests
         [Fact]
         public void CanUserLoginTest()
         {
-            //ARRANGE
-            LoginManager loginManager = new LoginManager();
 
-            loginManager.AddNewUser("Default_User", "Default_Password");
-            
             //ACT
 
-            bool canUserLogin = loginManager.LogInUser("Default_User", "Default_Password");
+            bool canUserLogin = _manager.LogInUser("Default_User", "Default_Password");
 
-            
+
             //ASSERT
             Assert.True(canUserLogin);
         }
@@ -48,14 +48,11 @@ namespace Tests
         [Fact]
         public void WrongUserCantLoginTest()
         {
-            //ARRANGE
-            LoginManager loginManager = new LoginManager();
-
-            loginManager.AddNewUser("Default_User", "Default_Password");
 
             //ACT
-          
-            bool wrongUserCantLogin = loginManager.LogInUser("Wrong_User", "Wrong_Password");
+
+            bool wrongUserCantLogin = _manager.LogInUser("Wrong_User", "Wrong_Password");
+
 
             //ASSERT
             Assert.False(wrongUserCantLogin);

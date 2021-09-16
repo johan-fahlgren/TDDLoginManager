@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace Core
 {
-    
-
-
     public class LoginManager
     {
+        //FIELD
         public string userName;
         public string userPassword;
 
@@ -15,8 +13,8 @@ namespace Core
         {
             userName = givenUserName;
             userPassword = givenUserPassword;
-           
-            
+
+
         }
 
         public bool LogInUser(string givenUserName, string givenUserPassword)
