@@ -79,5 +79,24 @@ namespace Tests
 
 
         }
+
+        [Fact]
+        public void UserNameCharactersTest()
+        {
+            //Act
+            bool newUserAcceptedCaracters = _manager.AddNewUser("Calle_Larsson1", "123_pwd");
+
+            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "123_pwd");
+
+            bool newUserMax16Char = _manager.AddNewUser("12345678910111213", "123_pwd");
+
+
+            //Assert
+            Assert.True(newUserAcceptedCaracters);
+
+            Assert.False(newUserNotAcceptedCharacters);
+
+            Assert.False(newUserMax16Char);
+        }
     }
 }
