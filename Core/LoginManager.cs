@@ -11,6 +11,11 @@ namespace Core
 
         public bool AddNewUser(string givenUserName, string givenUserPassword)
         {
+            if (givenUserName == userName)
+            {
+                return false;
+            }
+            
             userName = givenUserName;
             userPassword = givenUserPassword;
 
