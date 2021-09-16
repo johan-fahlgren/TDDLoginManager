@@ -19,11 +19,38 @@ namespace Tests
            
 
             //ASSERT
-            Assert.Equal("Default_User", loginManager.userName );
+            Assert.Equal("Default_User", loginManager.userName);
 
-            Assert.Equal("Default_Password", loginManager.userPassword );
+            Assert.Equal("Default_Password", loginManager.userPassword);
 
 
+        }
+
+        [Fact]
+        void CanUserLoginTest()
+        {
+            //ARRANGE
+            LoginManager loginManager = new LoginManager();
+
+            //ACT
+            bool canUserLogin = LoginManager.LogInUser("Default_User", "Default_Password");
+
+            
+            //ASSERT
+            Assert.True(canUserLogin);
+        }
+
+        [Fact]
+        void WrongUserCantLoginTest()
+        {
+            //ARRANGE
+            LoginManager loginManager = new LoginManager();
+
+            //ACT
+            bool wrongUserCantLogin = LoginManager.LogInUser("Wrong_User", "Wrong_Password");
+
+            //ASSERT
+            Assert.True(wrongUserCantLogin);
         }
     }
 }
