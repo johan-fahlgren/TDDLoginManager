@@ -14,7 +14,7 @@ namespace Tests
         public LoginTestSuite()
         {
             _manager = new LoginManager();
-            _manager.AddNewUser("Default_User", "Default_Password");
+            _manager.AddNewUser("Default_User", "Def4ult_Passw¤rd");
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace Tests
 
             Assert.Equal("Default_User", _manager.UserName);
 
-            Assert.Equal("Default_Password", _manager.UserPassword);
+            Assert.Equal("Def4ult_Passw¤rd", _manager.UserPassword);
 
 
         }
@@ -36,7 +36,7 @@ namespace Tests
 
             //ACT
 
-            bool canUserLogin = _manager.LogInUser("Default_User", "Default_Password");
+            bool canUserLogin = _manager.LogInUser("Default_User", "Def4ult_Passw¤rd");
 
 
             //ASSERT
@@ -50,7 +50,7 @@ namespace Tests
 
             //ACT
 
-            bool wrongUserCantLogin = _manager.LogInUser("Wrong_User", "Wrong_Password");
+            bool wrongUserCantLogin = _manager.LogInUser("Wrong_User", "Wr0ng_Passw¤rd");
 
 
             //ASSERT
@@ -85,9 +85,9 @@ namespace Tests
             //Act
             bool newUserAcceptedCaracters = _manager.AddNewUser("Calle_Larsson1", "Default_Pwd_UT");
 
-            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "Default_Pwd_UT");
+            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "Default_Pwd_UT2");
 
-            bool newUserMax16Char = _manager.AddNewUser("12345678910111213", "Default_Pwd_UT");
+            bool newUserMax16Char = _manager.AddNewUser("12345678910111213", "Default_Pwd_UT3");
 
 
             //Assert
@@ -104,16 +104,16 @@ namespace Tests
             //Act - Uppgift 5
             bool newUserPasswordAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "D_3)lt-!(#*3s?");
 
-            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "Däfult_Pässwörd");
+            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT2", "Däfult_Pässwörd");
 
-            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT", "12345678910111213");
+            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT3", "12345678910111213");
             
             // - Uppgift 6
-            bool newUserPasswordMin8Char = _manager.AddNewUser("Default_User_PT", "1234567");
+            bool newUserPasswordMin8Char = _manager.AddNewUser("Default_User_PT4", "1234567");
 
-            bool newUserPasswordContainsNumber = _manager.AddNewUser("Default_User_PT", "D3fult_p4ssword");
+            bool newUserPasswordContainsNumber = _manager.AddNewUser("Default_User_PT5", "D3fult_p4ssword");
             
-            bool newUserPasswordContainsSpecialCharacter = _manager.AddNewUser("Default_User_PT", "Defau!t_Password");
+            bool newUserPasswordContainsSpecialCharacter = _manager.AddNewUser("Default_User_PT6", "D#fau!t_P4ssw0rd");
 
 
 
@@ -125,12 +125,11 @@ namespace Tests
             Assert.False(newUserPasswordMax16Char);
 
             // - Uppgift 6
-
             Assert.False(newUserPasswordMin8Char);
 
-            Assert.False(newUserPasswordContainsNumber);
+            Assert.True(newUserPasswordContainsNumber);
 
-            Assert.False(newUserPasswordContainsSpecialCharacter);
+            Assert.True(newUserPasswordContainsSpecialCharacter);
         }
     }
 }

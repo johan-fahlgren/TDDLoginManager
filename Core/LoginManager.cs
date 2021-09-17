@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Core
@@ -71,18 +72,28 @@ namespace Core
 
         public bool UserPasswordIsOk(string givenUserPassword)
         {
-            
-            if (givenUserPassword.Length > 16)
+          
+            if (givenUserPassword.Length < 8 || givenUserPassword.Length > 16)
             {
                 return false;
             }
-
-           
-
+            
             if (!Regex.IsMatch(givenUserPassword, "^[a-zA-Z0-9_!'/&=#\\*¤\"%\\(?\\)-]*$"))
             {
                 return false;
             }
+
+            if (!Regex.IsMatch(givenUserPassword, "^[0-9]*$"))
+            {
+                return true;
+            }
+
+            if (!Regex.IsMatch(givenUserPassword, "^[_!'/&=#\\*¤\"%\\(?\\)-]*$"))
+            {
+                return false;
+            }
+
+
 
             return true;
 
