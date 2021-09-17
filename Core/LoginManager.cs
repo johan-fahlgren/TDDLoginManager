@@ -77,6 +77,8 @@ namespace Core
                 return false;
             }
 
+           
+
             if (!Regex.IsMatch(givenUserPassword, "^[a-zA-Z0-9_!'/&=#\\*¤\"%\\(?\\)-]*$"))
             {
                 return false;

@@ -101,19 +101,36 @@ namespace Tests
         [Fact]
         public void UserPasswordCharactersTest()
         {
-            //Act
+            //Act - Uppgift 5
             bool newUserPasswordAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "D_3)lt-!(#*3s?");
 
             bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "Däfult_Pässwörd");
 
             bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT", "12345678910111213");
+            
+            // - Uppgift 6
+            bool newUserPasswordMin8Char = _manager.AddNewUser("Default_User_PT", "1234567");
 
-            //Assert
+            bool newUserPasswordContainsNumber = _manager.AddNewUser("Default_User_PT", "D3fult_p4ssword");
+            
+            bool newUserPasswordContainsSpecialCharacter = _manager.AddNewUser("Default_User_PT", "Defau!t_Password");
+
+
+
+            //Assert - Uppgift 5
             Assert.True(newUserPasswordAcceptedCharacters);
 
             Assert.False(newUserPasswordNotAcceptedCharacters);
 
             Assert.False(newUserPasswordMax16Char);
+
+            // - Uppgift 6
+
+            Assert.False(newUserPasswordMin8Char);
+
+            Assert.False(newUserPasswordContainsNumber);
+
+            Assert.False(newUserPasswordContainsSpecialCharacter);
         }
     }
 }
