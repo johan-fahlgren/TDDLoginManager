@@ -18,7 +18,7 @@ namespace Tests
         }
 
         [Fact]
-        public void AddUserNameAndPasswordRegistrationTest()
+        public void AddUserNameAndPasswordRegistrationTest() //UPPGIFT 1
         {
             //ASSERT
 
@@ -31,7 +31,7 @@ namespace Tests
 
 
         [Fact]
-        public void CanUserLoginTest()
+        public void CanUserLoginTest() //UPPGIFT 2
         {
 
             //ACT
@@ -45,7 +45,7 @@ namespace Tests
 
 
         [Fact]
-        public void WrongUserCantLoginTest()
+        public void WrongUserCantLoginTest() //UPPGIFT 2
         {
 
             //ACT
@@ -58,18 +58,18 @@ namespace Tests
         }
 
         [Fact]
-        public void RegisterSameUserTwiceTest()
+        public void RegisterSameUserTwiceTest() //UPPGIFT 3
         {
 
-            //Act
-            bool registerSameUserAndPasswordTwice = _manager.AddNewUser("Default_User", "Default_Password");
+            //ACT
+            bool registerSameUserAndPasswordTwice = _manager.AddNewUser("Default_User", "Default_P4ssword");
 
-            bool registerSameUserDifferentPassword = _manager.AddNewUser("Default_User", "Wrong_Password");
+            bool registerSameUserDifferentPassword = _manager.AddNewUser("Default_User", "Wrong_P4ssword");
 
-            bool registerSameDifferentUserSamePassword = _manager.AddNewUser("Wrong_User", "Default_Password");
+            bool registerSameDifferentUserSamePassword = _manager.AddNewUser("Wrong_User", "Default_P4ssword");
 
 
-            //Assert
+            //ASSERT
             Assert.False(registerSameUserAndPasswordTwice);
 
             Assert.False(registerSameUserDifferentPassword);
@@ -80,18 +80,18 @@ namespace Tests
         }
 
         [Fact]
-        public void UserNameCharactersTest()
+        public void UserNameCharactersTest() //UPPGIFT 4
         {
-            //Act
-            bool newUserAcceptedCaracters = _manager.AddNewUser("Calle_Larsson1", "Default_Pwd_UT");
+            //ACT
+            bool newUserAcceptedCharacters = _manager.AddNewUser("Calle_Larsson1", "Default_P4ssword");
 
-            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "Default_Pwd_UT2");
+            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "Default_P4ssword");
 
-            bool newUserMax16Char = _manager.AddNewUser("12345678910111213", "Default_Pwd_UT3");
+            bool newUserMax16Char = _manager.AddNewUser("16+_stycken_chars", "Default_P4ssword");
 
 
-            //Assert
-            Assert.True(newUserAcceptedCaracters);
+            //ASSERT
+            Assert.True(newUserAcceptedCharacters);
 
             Assert.False(newUserNotAcceptedCharacters);
 
@@ -101,35 +101,33 @@ namespace Tests
         [Fact]
         public void UserPasswordCharactersTest()
         {
-            //Act - Uppgift 5
+            //ACT - UPPGIFT 5
             bool newUserPasswordAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "D_3)lt-!(#*3s?");
 
-            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT2", "Däfult_Pässwörd");
+            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT2", "Defult_Password");
 
-            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT3", "12345678910111213");
+            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT3", "16plus_characters");
+
+            //ACT - UPPGIFT 6
+            bool newUserPasswordMin8Char = _manager.AddNewUser("Default_User_PT4", "-8_Char");
+
+            bool newUserPasswordContainsNumberAndSpecialChar = _manager.AddNewUser("Default_User_PT5", "Defult_p4ssword");
             
-            // - Uppgift 6
-            bool newUserPasswordMin8Char = _manager.AddNewUser("Default_User_PT4", "1234567");
-
-            bool newUserPasswordContainsNumber = _manager.AddNewUser("Default_User_PT5", "D3fult_p4ssword");
             
-            bool newUserPasswordContainsSpecialCharacter = _manager.AddNewUser("Default_User_PT6", "D#fau!t_P4ssw0rd");
 
-
-
-            //Assert - Uppgift 5
+            //ASSERT - UPPGIFT 5
             Assert.True(newUserPasswordAcceptedCharacters);
 
             Assert.False(newUserPasswordNotAcceptedCharacters);
 
             Assert.False(newUserPasswordMax16Char);
 
-            // - Uppgift 6
+            //ASSERT - UPPGIFT 6
             Assert.False(newUserPasswordMin8Char);
 
-            Assert.True(newUserPasswordContainsNumber);
+            Assert.True(newUserPasswordContainsNumberAndSpecialChar);
 
-            Assert.True(newUserPasswordContainsSpecialCharacter);
+            
         }
     }
 }

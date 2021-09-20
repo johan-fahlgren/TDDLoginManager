@@ -15,30 +15,29 @@ namespace Core
         public string UserPassword;
 
 
-
+        // METOD FÖR ATT SKAPA NY USER
         public bool AddNewUser(string givenUserName, string givenUserPassword)
         {
             
-
             if (!UserNameIsOk(givenUserName))
             {
                 return false;
             }
 
-            if (!UserPasswordIsOk(givenUserPassword))
+            if (!UserPasswordIsOK(givenUserPassword))
             {
                 return false;
             }
+
             
             UserName = givenUserName;
             UserPassword = givenUserPassword;
-            
             return true;
-
+           
         }
 
 
-
+        // METOD FÖR ATT TESTA LOGIN
         public bool LogInUser(string givenUserName, string givenUserPassword)
         {
             bool loginSuccess = givenUserName == UserName && givenUserPassword == UserPassword;
@@ -47,7 +46,7 @@ namespace Core
 
 
 
-
+        // METOD FÖR ATT TESTA USER NAME 
         public bool UserNameIsOk(string givenUserName)
         {
 
@@ -55,51 +54,30 @@ namespace Core
             {
                 return false;
             }
-
-            if (givenUserName.Length > 16) //Username max length
+            
+            if (givenUserName.Length > 16) 
             {
                 return false;
             }
 
-            if (!Regex.IsMatch(givenUserName, "^[a-zA-Z0-9_-]*$")) //Kontrollerar a-z,A-Z,0-9 och "-_"
-            {
-                return false;
-            }
-
-            return true;
-
-
+            return Regex.IsMatch(givenUserName, "^[a-zA-Z0-9_-]*$");
         }
 
-
-        public bool UserPasswordIsOk(string givenUserPassword)
+        //METOD FÖR ATT TESTA PASSWORD
+        public bool UserPasswordIsOK(string givenUserPassword)
         {
-          
+
             if (givenUserPassword.Length is < 8 or > 16)
             {
                 return false;
             }
-            
-            if (!Regex.IsMatch(givenUserPassword, "^[a-zA-Z0-9_!'/&=#\\*¤\"%\\(?\\)-]*$"))
+
+            if (!Regex.IsMatch(givenUserPassword, "^([a-zA-Z0-9!\"#¤%&/()=?*'_-])*$"))
             {
                 return false;
             }
 
-            if (!Regex.IsMatch(givenUserPassword, "^[0-9]*$"))
-            {
-                if (!Regex.IsMatch(givenUserPassword, "^[_!'/&=#\\*¤\"%\\(?\\)-]*$"))
-                {
-                    return true;
-                }
-
-                
-            }
-
-            
-
-
-
-            return true;
+            return Regex.IsMatch(givenUserPassword, "^(?=.*[0-9])(?=.*[!\"#¤%&/()=?*'_-])");
 
         }
     }
