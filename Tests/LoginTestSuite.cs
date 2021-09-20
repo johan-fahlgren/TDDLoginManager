@@ -8,7 +8,7 @@ namespace Tests
     {
 
         //FIELD
-        private LoginManager _manager;
+        private readonly LoginManager _manager;
 
         //CONSTRUCTOR
         public LoginTestSuite()

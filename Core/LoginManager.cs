@@ -18,6 +18,8 @@ namespace Core
 
         public bool AddNewUser(string givenUserName, string givenUserPassword)
         {
+            
+
             if (!UserNameIsOk(givenUserName))
             {
                 return false;
@@ -27,10 +29,10 @@ namespace Core
             {
                 return false;
             }
-
-
+            
             UserName = givenUserName;
             UserPassword = givenUserPassword;
+            
             return true;
 
         }
@@ -73,7 +75,7 @@ namespace Core
         public bool UserPasswordIsOk(string givenUserPassword)
         {
           
-            if (givenUserPassword.Length < 8 || givenUserPassword.Length > 16)
+            if (givenUserPassword.Length is < 8 or > 16)
             {
                 return false;
             }
@@ -85,13 +87,15 @@ namespace Core
 
             if (!Regex.IsMatch(givenUserPassword, "^[0-9]*$"))
             {
-                return true;
+                if (!Regex.IsMatch(givenUserPassword, "^[_!'/&=#\\*¤\"%\\(?\\)-]*$"))
+                {
+                    return true;
+                }
+
+                
             }
 
-            if (!Regex.IsMatch(givenUserPassword, "^[_!'/&=#\\*¤\"%\\(?\\)-]*$"))
-            {
-                return false;
-            }
+            
 
 
 
