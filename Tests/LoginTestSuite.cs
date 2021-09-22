@@ -1,5 +1,6 @@
 using Core;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Tests
@@ -14,7 +15,8 @@ namespace Tests
         public LoginTestSuite()
         {
             _manager = new LoginManager();
-            _manager.AddNewUser("Default_User", "Def4ult_Passw¤rd");
+            _manager.AddNewUser
+                ("Default_User", "Def4ult_Passw¤rd");
         }
 
         [Fact]
@@ -36,7 +38,8 @@ namespace Tests
 
             //ACT
 
-            bool canUserLogin = _manager.LogInUser("Default_User", "Def4ult_Passw¤rd");
+            bool canUserLogin = _manager.LogInUser
+                ("Default_User", "Def4ult_Passw¤rd");
 
 
             //ASSERT
@@ -50,7 +53,8 @@ namespace Tests
 
             //ACT
 
-            bool wrongUserCantLogin = _manager.LogInUser("Wrong_User", "Wr0ng_Passw¤rd");
+            bool wrongUserCantLogin = _manager.LogInUser
+                ("Wrong_User", "Wr0ng_Passw¤rd");
 
 
             //ASSERT
@@ -62,11 +66,14 @@ namespace Tests
         {
 
             //ACT
-            bool registerSameUserAndPasswordTwice = _manager.AddNewUser("Default_User", "Default_P4ssword");
+            bool registerSameUserAndPasswordTwice = _manager.AddNewUser
+                ("Default_User", "Default_P4ssword");
 
-            bool registerSameUserDifferentPassword = _manager.AddNewUser("Default_User", "Wrong_P4ssword");
+            bool registerSameUserDifferentPassword = _manager.AddNewUser
+                ("Default_User", "Wrong_P4ssword");
 
-            bool registerSameDifferentUserSamePassword = _manager.AddNewUser("Wrong_User", "Default_P4ssword");
+            bool registerSameDifferentUserSamePassword = _manager.AddNewUser
+                ("Wrong_User", "Default_P4ssword");
 
 
             //ASSERT
@@ -83,11 +90,14 @@ namespace Tests
         public void UserNameCharactersTest() //UPPGIFT 4
         {
             //ACT
-            bool newUserAcceptedCharacters = _manager.AddNewUser("Calle_Larsson1", "Default_P4ssword");
+            bool newUserAcceptedCharacters = _manager.AddNewUser
+                ("Calle_Larsson1", "Default_P4ssword");
 
-            bool newUserNotAcceptedCharacters = _manager.AddNewUser("Örjan?Åberg", "Default_P4ssword");
+            bool newUserNotAcceptedCharacters = _manager.AddNewUser
+                ("Örjan?Åberg", "Default_P4ssword");
 
-            bool newUserMax16Char = _manager.AddNewUser("16+_stycken_chars", "Default_P4ssword");
+            bool newUserMax16Char = _manager.AddNewUser
+                ("16+_stycken_chars", "Default_P4ssword");
 
 
             //ASSERT
@@ -102,16 +112,21 @@ namespace Tests
         public void UserPasswordCharactersTest()
         {
             //ACT - UPPGIFT 5
-            bool newUserPasswordAcceptedCharacters = _manager.AddNewUser("Default_User_PT", "D_3)lt-!(#*3s?");
+            bool newUserPasswordAcceptedCharacters = _manager.AddNewUser
+                ("Default_User_PT", "D_3)lt-!(#*3s?");
 
-            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser("Default_User_PT2", "Defult_Password");
+            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser
+                ("Default_User_PT2", "Defult_Password");
 
-            bool newUserPasswordMax16Char = _manager.AddNewUser("Default_User_PT3", "16plus_characters");
+            bool newUserPasswordMax16Char = _manager.AddNewUser
+                ("Default_User_PT3", "16Plus_Characters");
 
             //ACT - UPPGIFT 6
-            bool newUserPasswordMin8Char = _manager.AddNewUser("Default_User_PT4", "-8_Char");
+            bool newUserPasswordMin8Char = _manager.AddNewUser
+                ("Default_User_PT4", "-8_Char");
 
-            bool newUserPasswordContainsNumberAndSpecialChar = _manager.AddNewUser("Default_User_PT5", "Defult_p4ssword");
+            bool newUserPasswordContainsNumberAndSpecialChar = _manager.AddNewUser
+                ("Default_User_PT5", "Defult_p4ssword");
             
             
 
@@ -129,5 +144,7 @@ namespace Tests
 
             
         }
+
+        
     }
 }
