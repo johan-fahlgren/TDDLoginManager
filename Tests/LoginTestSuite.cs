@@ -145,6 +145,21 @@ namespace Tests
             
         }
 
-        
+        [Fact]
+        public void SaveUserAndPasswordTest() //UPPGIFT 7
+        {
+
+
+            string savedUser = "null";
+            string savedPassword = "null";
+
+            //ASSERT
+
+            Assert.Equal(savedUser, _manager.UserName);
+
+            Assert.Equal(savedPassword, _manager.UserPassword);
+
+
+        }
     }
 }
