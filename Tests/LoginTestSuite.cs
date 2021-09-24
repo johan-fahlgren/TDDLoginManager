@@ -189,11 +189,11 @@ namespace Tests
         public void GenerateRandomPasswordTest() //UPPGIFT h
         {
             var GeneratedPassword = UserManager.RandomPasswordGenerator();
-            
+
             bool GeneratedPasswordIsValidAndMaxLenght = _manager.AddNewUser
                 ("Saved_User", GeneratedPassword);
 
-           
+
             //ASSERT
             Assert.Equal(16, GeneratedPassword.Length);
 
@@ -202,18 +202,21 @@ namespace Tests
 
 
 
+        }
+
+        [Fact]
+        public void ChangePasswordTest() //UPPGIFT c
+        {
+            _manager.AddNewUser
+                ("Saved_User", "S4ved_Passw¤rd");
 
 
 
+            var NewPassword = UserManager.ChangePassword();
 
 
 
-
-
-
-
-
-
+            Assert.True(NewPassword);
 
         }
 

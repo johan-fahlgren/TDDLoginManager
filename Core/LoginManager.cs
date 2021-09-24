@@ -136,9 +136,14 @@ namespace Core
 
             return new string(chars);
 
-
         }
 
+        public static bool ChangePassword()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 
 
