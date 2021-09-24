@@ -11,7 +11,21 @@ namespace Core
         
         //FIELD
         public List<UserManager> UserList = new List<UserManager>();
-        
+
+
+        public bool ChangePasswordForUser(string userName, string oldPassword, string newPassword)
+        {
+            foreach (var userManager in UserList)
+            {
+                if (userManager.UserName == userName)
+                {
+                    return userManager.ChangePassword(newPassword, oldPassword);
+                }
+                
+            }
+            return false;
+        }
+
 
         // METOD FÖR ATT SKAPA NY USER
         public bool AddNewUser(string givenUserName, string givenUserPassword)
@@ -103,11 +117,10 @@ namespace Core
 
     public class UserManager
     {
-        public string UserName { get; init; }
-        public string Password { get; init; }
-
+        public readonly string UserName;
+        public string Password { get; private set; }
         public DateTime PasswordDateTime { get; set; }
-
+        
         public UserManager(string username, string password)
         {
             UserName = username;
@@ -122,9 +135,12 @@ namespace Core
             return UserName + "," + Password + ";" + PasswordDateTime;
         }
 
+       
         public static string RandomPasswordGenerator(int lenght = 16)
         {
-            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"#¤%&/()=?*'_-";
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            string specialChars = "0123456789!\"#¤%&/()=?*'_-";
+            
 
             Random random = new Random();
 
@@ -132,18 +148,24 @@ namespace Core
             for (int i = 0; i < lenght; i++)
             {
                 chars[i] = validChars[random.Next(0, validChars.Length)];
+                chars[i] = specialChars[random.Next(0, specialChars.Length)];
+               
             }
 
             return new string(chars);
 
         }
 
-        public static bool ChangePassword()
+        public bool ChangePassword(string newPassword, string oldPassword)
         {
-            throw new NotImplementedException();
+            if (oldPassword != Password) return false;
+            Password = newPassword;
+            return true;
+
         }
 
-        
+
+
     }
 
 

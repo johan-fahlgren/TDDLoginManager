@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
+using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 using Xunit;
 
 namespace Tests
@@ -204,19 +205,24 @@ namespace Tests
 
         }
 
+
         [Fact]
         public void ChangePasswordTest() //UPPGIFT c
         {
             _manager.AddNewUser
                 ("Saved_User", "S4ved_Passw¤rd");
 
+            var username = "Saved_User";
+            var NewPassword = "N3w_PassWord";
+            var OldPassword = _manager.UserList[1].Password;
+            
+            _manager.ChangePasswordForUser(username,OldPassword,NewPassword);
 
 
-            var NewPassword = UserManager.ChangePassword();
+
+            Assert.Equal(_manager.UserList[1].Password, NewPassword);
 
 
-
-            Assert.True(NewPassword);
 
         }
 
