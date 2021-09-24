@@ -183,6 +183,17 @@ namespace Tests
 
         }
 
+        [Fact]
+        public void GenerateRandomPasswordTest() //UPPGIFT h
+        {
+
+
+            bool GeneratedPasswordIsValidAndMaxLenght = _manager.AddNewUser
+                ("Default_User_PT5", "Defult_p4sswoöd");
+
+            Assert.True(GeneratedPasswordIsValidAndMaxLenght);
+        }
+
 
 
     }

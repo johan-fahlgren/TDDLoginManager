@@ -121,8 +121,8 @@ namespace Core
         {
             return UserName + "," + Password + ";" + PasswordDateTime;
         }
-        
 
+       
 
     }
 
