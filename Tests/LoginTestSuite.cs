@@ -146,7 +146,7 @@ namespace Tests
         }
 
         [Fact]
-        public void SaveUserAndPasswordTest() //UPPGIFT 7
+        public void SaveUserAndPasswordTest() //UPPGIFT 7 & 8
         {
             _manager.AddNewUser
                 ("Saved_User", "S4ved_Passw¤rd");
