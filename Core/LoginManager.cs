@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,18 +8,16 @@ namespace Core
 {
     public class LoginManager
     {
-        // TODO Skapa List för user och password
-        // TODO Lägga in i egen klass?
-
+        
         //FIELD
-        public string UserName;
-        public string UserPassword;
-
+        public List<UserManager> userList = new List<UserManager>();
+        
 
         // METOD FÖR ATT SKAPA NY USER
         public bool AddNewUser(string givenUserName, string givenUserPassword)
         {
-            
+
+
             if (!UserNameIsOk(givenUserName))
             {
                 return false;
@@ -29,19 +28,35 @@ namespace Core
                 return false;
             }
 
-            
-            UserName = givenUserName;
-            UserPassword = givenUserPassword;
+            userList.Add(new UserManager(givenUserName, givenUserPassword));
+
+            List<string> userStringList = new List<string>();
+
+            foreach (var userManager in userList)
+            {
+                userStringList.Add(userManager.ToString());
+
+            }
+
+            string filepath = @"C:\Users\johan\source\repos\ECU\Inlamningsuppgift-2\Core\UserData.txt";
+            File.WriteAllLines(filepath, userStringList);
+
             return true;
-           
+
+
+
         }
 
 
         // METOD FÖR ATT TESTA LOGIN
         public bool LogInUser(string givenUserName, string givenUserPassword)
         {
-            bool loginSuccess = givenUserName == UserName && givenUserPassword == UserPassword;
-            return loginSuccess;
+            foreach (var userManager in userList)
+            {
+                if (givenUserName == userManager.UserName && givenUserPassword == userManager.Password)
+                    return true;
+            }
+            return false;
         }
 
 
@@ -49,13 +64,16 @@ namespace Core
         // METOD FÖR ATT TESTA USER NAME 
         public bool UserNameIsOk(string givenUserName)
         {
-
-            if (givenUserName == UserName)
+            foreach (var userManager in userList)
             {
-                return false;
+                if (givenUserName == userManager.UserName)
+                {
+                    return false;
+                }
             }
-            
-            if (givenUserName.Length > 16) 
+
+
+            if (givenUserName.Length > 16)
             {
                 return false;
             }
@@ -81,4 +99,29 @@ namespace Core
 
         }
     }
+
+
+    public class UserManager
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+
+        public UserManager(string username, string password)
+        {
+            UserName = username;
+            Password = password;
+
+        }
+
+        public override string ToString()
+        {
+            return UserName + "," + Password;
+        }
+
+
+
+
+    }
+
+
 }

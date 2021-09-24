@@ -24,9 +24,9 @@ namespace Tests
         {
             //ASSERT
 
-            Assert.Equal("Default_User", _manager.UserName);
+            Assert.Equal("Default_User", _manager.userList[0].UserName);
 
-            Assert.Equal("Def4ult_Passw¤rd", _manager.UserPassword);
+            Assert.Equal("Def4ult_Passw¤rd", _manager.userList[0].Password);
 
 
         }
@@ -148,18 +148,17 @@ namespace Tests
         [Fact]
         public void SaveUserAndPasswordTest() //UPPGIFT 7
         {
-
-
-            string savedUser = "null";
-            string savedPassword = "null";
-
+            _manager.AddNewUser
+                ("Saved_User", "S4ved_Passw¤rd");
             //ASSERT
 
-            Assert.Equal(savedUser, _manager.UserName);
+            Assert.Equal("Saved_User", _manager.userList[1].UserName);
 
-            Assert.Equal(savedPassword, _manager.UserPassword);
+            Assert.Equal("S4ved_Passw¤rd", _manager.userList[1].Password);
 
 
         }
+
+        
     }
 }
