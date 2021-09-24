@@ -10,7 +10,7 @@ namespace Core
     {
         
         //FIELD
-        public List<UserManager> userList = new List<UserManager>();
+        public List<UserManager> UserList = new List<UserManager>();
         
 
         // METOD FÖR ATT SKAPA NY USER
@@ -28,11 +28,11 @@ namespace Core
                 return false;
             }
 
-            userList.Add(new UserManager(givenUserName, givenUserPassword));
+            UserList.Add(new UserManager(givenUserName, givenUserPassword));
 
             List<string> userStringList = new List<string>();
 
-            foreach (var userManager in userList)
+            foreach (var userManager in UserList)
             {
                 userStringList.Add(userManager.ToString());
 
@@ -51,7 +51,7 @@ namespace Core
         // METOD FÖR ATT TESTA LOGIN
         public bool LogInUser(string givenUserName, string givenUserPassword)
         {
-            foreach (var userManager in userList)
+            foreach (var userManager in UserList)
             {
                 if (givenUserName == userManager.UserName && givenUserPassword == userManager.Password)
                     return true;
@@ -64,7 +64,7 @@ namespace Core
         // METOD FÖR ATT TESTA USER NAME 
         public bool UserNameIsOk(string givenUserName)
         {
-            foreach (var userManager in userList)
+            foreach (var userManager in UserList)
             {
                 if (givenUserName == userManager.UserName)
                 {
@@ -103,22 +103,25 @@ namespace Core
 
     public class UserManager
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string UserName { get; init; }
+        public string Password { get; init; }
+
+        public DateTime PasswordDateTime { get; set; }
 
         public UserManager(string username, string password)
         {
             UserName = username;
             Password = password;
+            PasswordDateTime = DateTime.Today;
 
         }
+
 
         public override string ToString()
         {
-            return UserName + "," + Password;
+            return UserName + "," + Password + ";" + PasswordDateTime;
         }
-
-
+        
 
 
     }

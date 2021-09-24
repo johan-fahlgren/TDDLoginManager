@@ -24,9 +24,9 @@ namespace Tests
         {
             //ASSERT
 
-            Assert.Equal("Default_User", _manager.userList[0].UserName);
+            Assert.Equal("Default_User", _manager.UserList[0].UserName);
 
-            Assert.Equal("Def4ult_Passw¤rd", _manager.userList[0].Password);
+            Assert.Equal("Def4ult_Passw¤rd", _manager.UserList[0].Password);
 
 
         }
@@ -127,8 +127,8 @@ namespace Tests
 
             bool newUserPasswordContainsNumberAndSpecialChar = _manager.AddNewUser
                 ("Default_User_PT5", "Defult_p4ssword");
-            
-            
+
+
 
             //ASSERT - UPPGIFT 5
             Assert.True(newUserPasswordAcceptedCharacters);
@@ -142,23 +142,48 @@ namespace Tests
 
             Assert.True(newUserPasswordContainsNumberAndSpecialChar);
 
-            
+
         }
 
         [Fact]
         public void SaveUserAndPasswordTest() //UPPGIFT 7 & 8
         {
+
+            //ARRANGE
             _manager.AddNewUser
                 ("Saved_User", "S4ved_Passw¤rd");
             //ASSERT
 
-            Assert.Equal("Saved_User", _manager.userList[1].UserName);
+            Assert.Equal("Saved_User", _manager.UserList[1].UserName);
 
-            Assert.Equal("S4ved_Passw¤rd", _manager.userList[1].Password);
+            Assert.Equal("S4ved_Passw¤rd", _manager.UserList[1].Password);
 
 
         }
 
-        
+
+        [Fact]
+        public void ExpiredPasswordTest() //UPPGIFT 9
+        {
+            var mockTime = new MockTime();
+
+            _manager.AddNewUser
+                ("Saved_User", "S4ved_Passw¤rd");
+
+            
+            var passwordValidDate = _manager.UserList[1].PasswordDateTime == mockTime.TodayDate;
+            Assert.True(passwordValidDate);
+
+            
+            mockTime.SetDateTo(DateTime.Today + TimeSpan.FromDays(365 * 1));
+            passwordValidDate = _manager.UserList[1].PasswordDateTime == mockTime.TodayDate;
+            Assert.False(passwordValidDate);
+
+
+
+        }
+
+
+
     }
 }
