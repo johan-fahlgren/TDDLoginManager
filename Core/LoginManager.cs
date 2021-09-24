@@ -122,7 +122,22 @@ namespace Core
             return UserName + "," + Password + ";" + PasswordDateTime;
         }
 
-       
+        public static string RandomPasswordGenerator(int lenght = 16)
+        {
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"#¤%&/()=?*'_-";
+
+            Random random = new Random();
+
+            char[] chars = new char[lenght];
+            for (int i = 0; i < lenght; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+
+            return new string(chars);
+
+
+        }
 
     }
 

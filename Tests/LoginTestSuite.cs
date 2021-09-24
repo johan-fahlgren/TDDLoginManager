@@ -1,6 +1,8 @@
 using Core;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Text.Json.Serialization;
 using Xunit;
 
 namespace Tests
@@ -170,11 +172,11 @@ namespace Tests
             _manager.AddNewUser
                 ("Saved_User", "S4ved_Passw¤rd");
 
-            
+
             var passwordValidDate = _manager.UserList[1].PasswordDateTime == mockTime.TodayDate;
             Assert.True(passwordValidDate);
 
-            
+
             mockTime.SetDateTo(DateTime.Today + TimeSpan.FromDays(365 * 1));
             passwordValidDate = _manager.UserList[1].PasswordDateTime == mockTime.TodayDate;
             Assert.False(passwordValidDate);
@@ -186,12 +188,33 @@ namespace Tests
         [Fact]
         public void GenerateRandomPasswordTest() //UPPGIFT h
         {
-
-
+            var GeneratedPassword = UserManager.RandomPasswordGenerator();
+            
             bool GeneratedPasswordIsValidAndMaxLenght = _manager.AddNewUser
-                ("Default_User_PT5", "Defult_p4sswoöd");
+                ("Saved_User", GeneratedPassword);
+
+           
+            //ASSERT
+            Assert.Equal(16, GeneratedPassword.Length);
 
             Assert.True(GeneratedPasswordIsValidAndMaxLenght);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
 
