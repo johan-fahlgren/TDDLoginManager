@@ -117,6 +117,8 @@ namespace Core
 
     public class UserManager
     {
+
+        public readonly string UserEmail;
         public readonly string UserName;
         public string Password { get; private set; }
         public DateTime PasswordDateTime { get; set; }

@@ -226,6 +226,24 @@ namespace Tests
 
         }
 
+        [Fact]
+        public void CanRegisterAndLoginWithEmailAddress() //UPPGIFT f
+        {
+            _manager.AddNewUser
+                ("Default_User", "Defult_p4ssword");
+            
+            bool canUserLogin = _manager.LogInUser
+                ("Default_User", "Def4ult_Passw¤rd");
+
+
+
+
+            Assert.Equal("UserEmail@EmailProvider.com", _manager.UserList[1].UserEmail);
+
+            Assert.True(canUserLogin);
+
+        }
+
 
 
     }
