@@ -8,10 +8,10 @@ namespace Core
 {
     public class LoginManager
     {
-        
+
         //FIELD
         public List<UserManager> UserList = new List<UserManager>();
-
+        
 
         public bool ChangePasswordForUser(string userName, string oldPassword, string newPassword)
         {
@@ -21,16 +21,20 @@ namespace Core
                 {
                     return userManager.ChangePassword(newPassword, oldPassword);
                 }
-                
+
             }
             return false;
         }
 
 
         // METOD FÖR ATT SKAPA NY USER
-        public bool AddNewUser(string givenUserName, string givenUserPassword)
+        public bool AddNewUser(string givenUserEmail, string givenUserName, string givenUserPassword)
         {
 
+            if (!UserEmailIsOK(givenUserEmail))
+            {
+                return false;
+            }
 
             if (!UserNameIsOk(givenUserName))
             {
@@ -42,7 +46,7 @@ namespace Core
                 return false;
             }
 
-            UserList.Add(new UserManager(givenUserName, givenUserPassword));
+            UserList.Add(new UserManager(givenUserEmail, givenUserName, givenUserPassword));
 
             List<string> userStringList = new List<string>();
 
@@ -56,11 +60,9 @@ namespace Core
             File.WriteAllLines(filepath, userStringList);
 
             return true;
-
-
-
+            
         }
-
+        
 
         // METOD FÖR ATT TESTA LOGIN
         public bool LogInUser(string givenUserName, string givenUserPassword)
@@ -71,6 +73,38 @@ namespace Core
                     return true;
             }
             return false;
+        }
+
+        public bool LogInUserByEmail(string giverUserEmail, string givenUserPassword)
+        {
+            foreach (var userManager in UserList)
+            {
+                if (giverUserEmail == userManager.UserEmail && givenUserPassword == userManager.Password)
+                    return true;
+            }
+            return false;
+        }
+
+
+        // METOD FÖR ATT TESTA USER EMAIL 
+        private bool UserEmailIsOK(string givenUserEmail)
+        {
+            foreach (var userManager in UserList)
+            {
+                if (givenUserEmail == userManager.UserEmail)
+                {
+                    return false;
+                }
+            }
+
+            if (givenUserEmail.Length > 64)
+            {
+                return false;
+            }
+
+            return Regex.IsMatch(givenUserEmail, "^([a-zA-Z0-9_.-]+)@([a-z0-9]+).(com|org|se|net|gov)$");
+
+
         }
 
 
@@ -85,7 +119,6 @@ namespace Core
                     return false;
                 }
             }
-
 
             if (givenUserName.Length > 16)
             {
@@ -109,7 +142,7 @@ namespace Core
                 return false;
             }
 
-            return Regex.IsMatch(givenUserPassword, "^(?=.*[0-9])(?=.*[!\"#¤%&/()=?*'_-])");
+            return Regex.IsMatch(givenUserPassword, "^(?=.*[0-9])(?=.*[!\"#¤%&/()=?*'_-]).*$");
 
         }
     }
@@ -117,32 +150,34 @@ namespace Core
 
     public class UserManager
     {
-
+        //FIELD
         public readonly string UserEmail;
         public readonly string UserName;
         public string Password { get; private set; }
         public DateTime PasswordDateTime { get; set; }
-        
-        public UserManager(string username, string password)
+
+        //CONSTRUCTOR
+        public UserManager(string useremail, string username, string password)
         {
+            UserEmail = useremail;
             UserName = username;
             Password = password;
             PasswordDateTime = DateTime.Today;
 
         }
 
-
+        // TOSTRING METHOD OVERRIDER
         public override string ToString()
         {
-            return UserName + "," + Password + ";" + PasswordDateTime;
+            return UserEmail + "," + UserName + "," + Password + ";" + PasswordDateTime;
         }
 
-       
+        //RANDOM PASSWORD GENERATOR METHOD
         public static string RandomPasswordGenerator(int lenght = 16)
         {
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             string specialChars = "0123456789!\"#¤%&/()=?*'_-";
-            
+
 
             Random random = new Random();
 
@@ -151,13 +186,14 @@ namespace Core
             {
                 chars[i] = validChars[random.Next(0, validChars.Length)];
                 chars[i] = specialChars[random.Next(0, specialChars.Length)];
-               
+
             }
 
             return new string(chars);
 
         }
 
+        // CHANGE PASSWORD METHOD
         public bool ChangePassword(string newPassword, string oldPassword)
         {
             if (oldPassword != Password) return false;

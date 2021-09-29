@@ -13,24 +13,28 @@ namespace Tests
 
         //FIELD
         private readonly LoginManager _manager;
+        private string defaultUser = "Default_User";
+        private string defaultPassword = "Def4ult_Passw¤rd";
+        private string defaultEmail = "User_Email@emailprovider.com";
+
 
         //CONSTRUCTOR
         public LoginTestSuite()
         {
             _manager = new LoginManager();
-            _manager.AddNewUser
-                ("Default_User", "Def4ult_Passw¤rd");
+
         }
 
         [Fact]
         public void AddUserNameAndPasswordRegistrationTest() //UPPGIFT 1
         {
+            _manager.AddNewUser
+                (defaultEmail, defaultUser, defaultPassword);
             //ASSERT
 
-            Assert.Equal("Default_User", _manager.UserList[0].UserName);
+            Assert.Equal(defaultUser, _manager.UserList[0].UserName);
 
-            Assert.Equal("Def4ult_Passw¤rd", _manager.UserList[0].Password);
-
+            Assert.Equal(defaultPassword, _manager.UserList[0].Password);
 
         }
 
@@ -38,11 +42,12 @@ namespace Tests
         [Fact]
         public void CanUserLoginTest() //UPPGIFT 2
         {
-
+            _manager.AddNewUser
+                (defaultEmail, defaultUser, defaultPassword);
             //ACT
 
             bool canUserLogin = _manager.LogInUser
-                ("Default_User", "Def4ult_Passw¤rd");
+                (defaultUser, defaultPassword);
 
 
             //ASSERT
@@ -53,7 +58,8 @@ namespace Tests
         [Fact]
         public void WrongUserCantLoginTest() //UPPGIFT 2
         {
-
+            _manager.AddNewUser
+                (defaultEmail, defaultUser, defaultPassword);
             //ACT
 
             bool wrongUserCantLogin = _manager.LogInUser
@@ -64,19 +70,23 @@ namespace Tests
             Assert.False(wrongUserCantLogin);
         }
 
+
         [Fact]
         public void RegisterSameUserTwiceTest() //UPPGIFT 3
         {
 
+            _manager.AddNewUser
+                (defaultEmail, defaultUser, defaultPassword);
+
             //ACT
             bool registerSameUserAndPasswordTwice = _manager.AddNewUser
-                ("Default_User", "Default_P4ssword");
+                (defaultEmail, defaultUser, defaultPassword);
 
             bool registerSameUserDifferentPassword = _manager.AddNewUser
-                ("Default_User", "Wrong_P4ssword");
+                (defaultEmail, defaultUser, "Wrong_P4ssword");
 
-            bool registerSameDifferentUserSamePassword = _manager.AddNewUser
-                ("Wrong_User", "Default_P4ssword");
+            bool registerDifferentUserSamePassword = _manager.AddNewUser
+                ("wrong_email@mail.gov", "Wrong_User", defaultPassword);
 
 
             //ASSERT
@@ -84,23 +94,25 @@ namespace Tests
 
             Assert.False(registerSameUserDifferentPassword);
 
-            Assert.True(registerSameDifferentUserSamePassword);
+            Assert.True(registerDifferentUserSamePassword);
 
 
         }
 
+
         [Fact]
         public void UserNameCharactersTest() //UPPGIFT 4
         {
+
             //ACT
             bool newUserAcceptedCharacters = _manager.AddNewUser
-                ("Calle_Larsson1", "Default_P4ssword");
+                (defaultEmail, "Calle_Larsson1", defaultPassword);
 
             bool newUserNotAcceptedCharacters = _manager.AddNewUser
-                ("Örjan?Åberg", "Default_P4ssword");
+                (defaultEmail, "Örjan?Åberg", defaultPassword);
 
             bool newUserMax16Char = _manager.AddNewUser
-                ("16+_stycken_chars", "Default_P4ssword");
+                (defaultEmail, "16+_stycken_chars", defaultPassword);
 
 
             //ASSERT
@@ -111,25 +123,26 @@ namespace Tests
             Assert.False(newUserMax16Char);
         }
 
+
         [Fact]
         public void UserPasswordCharactersTest()
         {
             //ACT - UPPGIFT 5
             bool newUserPasswordAcceptedCharacters = _manager.AddNewUser
-                ("Default_User_PT", "D_3)lt-!(#*3s?");
+                ("wrong_email@mail.se", "Default_User_PT", "D_3)lt-!(#*3s?");
 
             bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser
-                ("Default_User_PT2", "Defult_Password");
+                ("wrong_email@mail.com", "Default_User_PT2", "Defult_Password");
 
             bool newUserPasswordMax16Char = _manager.AddNewUser
-                ("Default_User_PT3", "16Plus_Characters");
+                ("wrong_email@mail.net", "Default_User_PT3", "16Plus_Characters");
 
             //ACT - UPPGIFT 6
             bool newUserPasswordMin8Char = _manager.AddNewUser
-                ("Default_User_PT4", "-8_Char");
+                ("wrong_email@mail.org", "Default_User_PT4", "-8_Char");
 
             bool newUserPasswordContainsNumberAndSpecialChar = _manager.AddNewUser
-                ("Default_User_PT5", "Defult_p4ssword");
+                ("wrong_email@mail.gov", "Default_User_PT5", "Defult_p4ssword");
 
 
 
@@ -148,19 +161,19 @@ namespace Tests
 
         }
 
+
         [Fact]
         public void SaveUserAndPasswordTest() //UPPGIFT 7 & 8
         {
 
             //ARRANGE
             _manager.AddNewUser
-                ("Saved_User", "S4ved_Passw¤rd");
+                (defaultEmail, "Saved_User", "S4ved_Passw¤rd");
             //ASSERT
 
-            Assert.Equal("Saved_User", _manager.UserList[1].UserName);
+            Assert.Equal("Saved_User", _manager.UserList[0].UserName);
 
-            Assert.Equal("S4ved_Passw¤rd", _manager.UserList[1].Password);
-
+            Assert.Equal("S4ved_Passw¤rd", _manager.UserList[0].Password);
 
         }
 
@@ -171,20 +184,19 @@ namespace Tests
             var mockTime = new MockTime();
 
             _manager.AddNewUser
-                ("Saved_User", "S4ved_Passw¤rd");
+                (defaultEmail, "Saved_User", "S4ved_Passw¤rd");
 
 
-            var passwordValidDate = _manager.UserList[1].PasswordDateTime == mockTime.TodayDate;
+            var passwordValidDate = _manager.UserList[0].PasswordDateTime == mockTime.TodayDate;
             Assert.True(passwordValidDate);
 
 
             mockTime.SetDateTo(DateTime.Today + TimeSpan.FromDays(365 * 1));
-            passwordValidDate = _manager.UserList[1].PasswordDateTime == mockTime.TodayDate;
+            passwordValidDate = _manager.UserList[0].PasswordDateTime == mockTime.TodayDate;
             Assert.False(passwordValidDate);
 
-
-
         }
+
 
         [Fact]
         public void GenerateRandomPasswordTest() //UPPGIFT h
@@ -192,7 +204,7 @@ namespace Tests
             var GeneratedPassword = UserManager.RandomPasswordGenerator();
 
             bool GeneratedPasswordIsValidAndMaxLenght = _manager.AddNewUser
-                ("Saved_User", GeneratedPassword);
+                (defaultEmail, "Saved_User", GeneratedPassword);
 
 
             //ASSERT
@@ -200,29 +212,25 @@ namespace Tests
 
             Assert.True(GeneratedPasswordIsValidAndMaxLenght);
 
-
-
-
         }
 
 
         [Fact]
         public void ChangePasswordTest() //UPPGIFT c
+
         {
             _manager.AddNewUser
-                ("Saved_User", "S4ved_Passw¤rd");
+                (defaultEmail, "Saved_User", "S4ved_Passw¤rd");
 
             var username = "Saved_User";
             var NewPassword = "N3w_PassWord";
-            var OldPassword = _manager.UserList[1].Password;
-            
-            _manager.ChangePasswordForUser(username,OldPassword,NewPassword);
+            var OldPassword = _manager.UserList[0].Password;
+
+            _manager.ChangePasswordForUser(username, OldPassword, NewPassword);
 
 
-
-            Assert.Equal(_manager.UserList[1].Password, NewPassword);
-
-
+            //ASSERT
+            Assert.Equal(_manager.UserList[0].Password, NewPassword);
 
         }
 
@@ -230,15 +238,14 @@ namespace Tests
         public void CanRegisterAndLoginWithEmailAddress() //UPPGIFT f
         {
             _manager.AddNewUser
-                ("Default_User", "Defult_p4ssword");
-            
-            bool canUserLogin = _manager.LogInUser
-                ("Default_User", "Def4ult_Passw¤rd");
+                (defaultEmail, defaultUser, defaultPassword);
+
+            bool canUserLogin = _manager.LogInUserByEmail
+                (defaultEmail, defaultPassword);
 
 
-
-
-            Assert.Equal("UserEmail@EmailProvider.com", _manager.UserList[1].UserEmail);
+            //ASSERT
+            Assert.Equal(defaultEmail, _manager.UserList[0].UserEmail);
 
             Assert.True(canUserLogin);
 
