@@ -11,7 +11,8 @@ namespace Core
 
         //FIELD
         public List<UserManager> UserList = new List<UserManager>();
-        
+        private string UserDataFile = @"C:\Users\johan\source\repos\ECU\Inlamningsuppgift-2\Core\UserData.txt";
+
 
         public bool ChangePasswordForUser(string userName, string oldPassword, string newPassword)
         {
@@ -56,13 +57,12 @@ namespace Core
 
             }
 
-            string filepath = @"C:\Users\johan\source\repos\ECU\Inlamningsuppgift-2\Core\UserData.txt";
-            File.WriteAllLines(filepath, userStringList);
+            File.WriteAllLines(UserDataFile, userStringList);
 
             return true;
-            
+
         }
-        
+
 
         // METOD FÖR ATT TESTA LOGIN
         public bool LogInUser(string givenUserName, string givenUserPassword)
@@ -176,17 +176,18 @@ namespace Core
         public static string RandomPasswordGenerator(int lenght = 16)
         {
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            string specialChars = "0123456789!\"#¤%&/()=?*'_-";
+            string specialChars = "!\"#¤%&/()=?*'_-";
+            string numberChars = "0123456789";
 
-
+            List<string> characterSets = new List<string>(){ validChars, specialChars, numberChars };
             Random random = new Random();
 
+
             char[] chars = new char[lenght];
+            
             for (int i = 0; i < lenght; i++)
             {
-                chars[i] = validChars[random.Next(0, validChars.Length)];
-                chars[i] = specialChars[random.Next(0, specialChars.Length)];
-
+                chars[i] = characterSets[i%3][random.Next(0, characterSets[i%3].Length)];
             }
 
             return new string(chars);
