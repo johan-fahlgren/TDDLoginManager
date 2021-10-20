@@ -22,7 +22,7 @@ namespace Tests
         //CONSTRUCTOR
         public LoginTestSuite()
         {
-            Thread.Sleep(500);
+            
            _manager = new LoginManager();
         }
 
