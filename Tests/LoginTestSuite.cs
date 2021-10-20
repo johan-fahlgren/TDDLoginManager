@@ -22,8 +22,7 @@ namespace Tests
         //CONSTRUCTOR
         public LoginTestSuite()
         {
-            
-           _manager = new LoginManager();
+            _manager = new LoginManager();
         }
 
         [Fact]
@@ -123,45 +122,40 @@ namespace Tests
 
             Assert.False(newUserMax16Char);
         }
+        
 
+        [Theory]
+        [InlineData("wrong_email@mail.se", "Default_User_PT",
+            "D_3)lt-!(#*3s?")]
+        [InlineData("wrong_email@mail.com", "Default_User_PT2",
+            "Defult_Password")]
+        [InlineData("wrong_email@mail.net", "Default_User_PT3",
+            "16Plus_Characters")]
+        [InlineData("wrong_email@mail.org", "Default_User_PT4",
+            " - 8_Char")]
+        [InlineData("wrong_email@mail.gov", "Default_User_PT5",
+            "Defult_p4ssword")]
 
-        [Fact]
-        public void UserPasswordCharactersTest()
+        void UserPasswordCharactersTest(string uEmail, string uName,
+            string uPassword)
         {
-            //ACT - UPPGIFT 5
-            bool newUserPasswordAcceptedCharacters = _manager.AddNewUser
-                ("wrong_email@mail.se", "Default_User_PT", "D_3)lt-!(#*3s?");
+            bool addNewUser =
+                _manager.AddNewUser(uEmail, uName, uPassword);
 
-            bool newUserPasswordNotAcceptedCharacters = _manager.AddNewUser
-                ("wrong_email@mail.com", "Default_User_PT2", "Defult_Password");
-
-            bool newUserPasswordMax16Char = _manager.AddNewUser
-                ("wrong_email@mail.net", "Default_User_PT3", "16Plus_Characters");
-
-            //ACT - UPPGIFT 6
-            bool newUserPasswordMin8Char = _manager.AddNewUser
-                ("wrong_email@mail.org", "Default_User_PT4", "-8_Char");
-
-            bool newUserPasswordContainsNumberAndSpecialChar = _manager.AddNewUser
-                ("wrong_email@mail.gov", "Default_User_PT5", "Defult_p4ssword");
-
-
-
-            //ASSERT - UPPGIFT 5
-            Assert.True(newUserPasswordAcceptedCharacters);
-
-            Assert.False(newUserPasswordNotAcceptedCharacters);
-
-            Assert.False(newUserPasswordMax16Char);
-
-            //ASSERT - UPPGIFT 6
-            Assert.False(newUserPasswordMin8Char);
-
-            Assert.True(newUserPasswordContainsNumberAndSpecialChar);
-
-
+            if (addNewUser)
+            {
+                Assert.True(addNewUser);
+                
+            }
+            else
+            {
+                Assert.False(addNewUser);
+            }
+            
+            
         }
 
+        
 
         [Fact]
         public void SaveUserAndPasswordTest() //UPPGIFT 7 & 8
