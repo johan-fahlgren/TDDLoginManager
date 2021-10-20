@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Core
 {
@@ -11,7 +12,7 @@ namespace Core
 
         //FIELD
         public List<UserManager> UserList = new List<UserManager>();
-        private string UserDataFile = @"C:\Users\johan\source\repos\ECU\Inlamningsuppgift-2\Core\UserData.txt";
+        private string UserDataFile = "../../../../Assets/UserData.txt";
 
 
         public bool ChangePasswordForUser(string userName, string oldPassword, string newPassword)
@@ -57,11 +58,31 @@ namespace Core
 
             }
 
+            
             File.WriteAllLines(UserDataFile, userStringList);
-
+            
             return true;
 
         }
+
+        //METOD LÄSA FRÅN USERDATA FIL
+        public void ReadUserData()
+        {
+            var userData = File.ReadAllLines(UserDataFile);
+
+            foreach (var data in userData)
+            {
+                var dataSplit = data.Split(",");
+
+                UserManager user = new UserManager(dataSplit[0],
+                    dataSplit[1], dataSplit[2], DateTime.Parse(dataSplit[3]));
+
+                UserList.Add(user);
+            }
+            
+        }
+
+
 
 
         // METOD FÖR ATT TESTA LOGIN
@@ -145,6 +166,8 @@ namespace Core
             return Regex.IsMatch(givenUserPassword, "^(?=.*[0-9])(?=.*[!\"#¤%&/()=?*'_-]).*$");
 
         }
+
+        
     }
 
 
@@ -166,10 +189,20 @@ namespace Core
 
         }
 
+        //CONSTRUCTOR
+        public UserManager(string useremail, string username,
+            string password, DateTime passwordDateTime)
+        {
+            UserEmail = useremail;
+            UserName = username;
+            Password = password;
+            PasswordDateTime = passwordDateTime;
+        }
+
         // TOSTRING METHOD OVERRIDER
         public override string ToString()
         {
-            return UserEmail + "," + UserName + "," + Password + ";" + PasswordDateTime;
+            return UserEmail + "," + UserName + "," + Password + "," + PasswordDateTime;
         }
 
         //RANDOM PASSWORD GENERATOR METHOD

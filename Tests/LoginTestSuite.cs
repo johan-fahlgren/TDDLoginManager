@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 using Xunit;
 
@@ -21,8 +22,8 @@ namespace Tests
         //CONSTRUCTOR
         public LoginTestSuite()
         {
-            _manager = new LoginManager();
-
+            Thread.Sleep(500);
+           _manager = new LoginManager();
         }
 
         [Fact]
@@ -167,16 +168,24 @@ namespace Tests
         {
 
             //ARRANGE
+            LoginManager manager = new LoginManager();
+
             _manager.AddNewUser
                 (defaultEmail, "Saved_User", "S4ved_Passw¤rd");
+
+            manager.ReadUserData();
+
             //ASSERT
 
-            Assert.Equal("Saved_User", _manager.UserList[0].UserName);
+            Assert.Equal("Saved_User", manager.UserList[0].UserName);
 
-            Assert.Equal("S4ved_Passw¤rd", _manager.UserList[0].Password);
+            Assert.Equal("S4ved_Passw¤rd",
+                manager.UserList[0].Password);
+
+            Assert.True(manager.LogInUser
+                ("Saved_User", "S4ved_Passw¤rd"));
 
         }
-
 
         [Fact]
         public void ExpiredPasswordTest() //UPPGIFT 9
@@ -222,6 +231,10 @@ namespace Tests
             _manager.AddNewUser
                 (defaultEmail, "Saved_User", "S4ved_Passw¤rd");
 
+            Assert.True(_manager.LogInUser
+                ("Saved_User", "S4ved_Passw¤rd"));
+
+
             var username = "Saved_User";
             var NewPassword = "N3w_PassWord";
             var OldPassword = _manager.UserList[0].Password;
@@ -231,6 +244,11 @@ namespace Tests
 
             //ASSERT
             Assert.Equal(_manager.UserList[0].Password, NewPassword);
+
+            Assert.True(_manager.LogInUser
+                ("Saved_User", "N3w_PassWord"));
+
+
 
         }
 
